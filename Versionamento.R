@@ -34,3 +34,14 @@ usethis::edit_r_environ()
 gitcreds::gitcreds_set()
 usethis::use_git()
 usethis::use_github()
+
+
+
+usethis::git_sitrep()
+
+
+
+
+
+
+
