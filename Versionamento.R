@@ -8,6 +8,8 @@ pacman::p_load(gitcreds, usethis)
 
 # Tutorial: https://www.youtube.com/watch?v=2gmofUthjKk
 
+# https://www.youtube.com/watch?v=Q0OrayIbUnQ
+
 # Se apresentar para o Git:
 usethis::use_git_config(user.name = "Fernando Bispo",
                         user.email = "fobispo@outlook.com")
