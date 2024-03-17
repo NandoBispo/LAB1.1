@@ -20,14 +20,13 @@ gitcreds::gitcreds_set()
 usethis::use_git()
 usethis::use_github()
 
-usethis::edit_r_environ()
 
 # USANDO R BASE ----
 ## Q1 ----
 {
 ### DADOS 1 ----
 
-dados_brutos1 <- read.csv("caschool.csv")
+dados_brutos1 <- read.csv("dados/caschool.csv")
 
 dplyr::glimpse(dados_brutos1)
 
@@ -103,7 +102,7 @@ cor(dados1$math_scr, dados1$str)
 ## Q2 ----
 {
 ### DADOS 2 ----
-dados_brutos2 <- read.table('pima.ascii', sep = "")
+dados_brutos2 <- read.table('dados/pima.ascii', sep = "", head=T)
 
 dplyr::glimpse(dados_brutos2)
 
@@ -112,7 +111,8 @@ summary(dados_brutos2)
 
 ### item b ----
 
-
+# pima$diastolic[pima$diastolic == 0] = NA
+dados_brutos2$diastolic[dados_brutos2$diastolic == 0] = NA
 
 
 ### item c ----
