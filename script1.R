@@ -152,9 +152,9 @@ plot(dados_brutos2) # Mostra um painel com graficos de dispersão de todas as va
 ### item g ----
 plot(diabetes ~ test, data=dados_brutos2, xlab="Test", ylab="Diabetes")
 
-plot(age ~ test, data=dados_brutos2, xlab="Idade", ylab="Diabetes")
-
-par(mfrow=c(1,1))
+# plot(age ~ test, data=dados_brutos2, xlab="Idade", ylab="Diabetes")
+# 
+# par(mfrow=c(1,1))
 
 }
 
