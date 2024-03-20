@@ -112,14 +112,49 @@ summary(dados_brutos2)
 ### item b ----
 
 # pima$diastolic[pima$diastolic == 0] = NA
+dados_brutos2$pregnant[dados_brutos2$pregnant == 0] = NA
+dados_brutos2$glucose[dados_brutos2$glucose == 0] = NA
 dados_brutos2$diastolic[dados_brutos2$diastolic == 0] = NA
-
+dados_brutos2$triceps[dados_brutos2$triceps == 0] = NA
+dados_brutos2$insulin[dados_brutos2$insulin == 0] = NA
+dados_brutos2$bmi[dados_brutos2$bmi == 0] = NA
+dados_brutos2$diabetes[dados_brutos2$diabetes == 0] = NA
+dados_brutos2$age[dados_brutos2$age == 0] = NA
+dados_brutos2$test[dados_brutos2$test == 0] = NA
 
 ### item c ----
-
+dados_brutos2$test = factor(dados_brutos2$test)
 
 
 ### item d ----
+var(dados_brutos2$diastolic,
+    na.rm=TRUE)
+
+### item e ----
+# Tutorial: https://vanderleidebastiani.github.io/tutoriais/Graficos_com_R.html#Pain%C3%A9is_gr%C3%A1ficos
+
+# par(mfrow=c(2,4))
+par(mfrow=c(2,4), las=1)
+hist(dados_brutos2$pregnant)
+hist(dados_brutos2$diastolic)
+hist(dados_brutos2$triceps)
+hist(dados_brutos2$glucose)
+hist(dados_brutos2$insulin)
+hist(dados_brutos2$bmi)
+hist(dados_brutos2$age)
+hist(dados_brutos2$diabetes)
+
+# las: Altera a orientação dos números dos eixos.
+
+### item f ----
+plot(dados_brutos2) # Mostra um painel com graficos de dispersão de todas as variáveis.
+
+### item g ----
+plot(diabetes ~ test, data=dados_brutos2, xlab="Test", ylab="Diabetes")
+
+plot(age ~ test, data=dados_brutos2, xlab="Idade", ylab="Diabetes")
+
+par(mfrow=c(1,1))
 
 }
 
