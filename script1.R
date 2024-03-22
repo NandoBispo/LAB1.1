@@ -13,14 +13,14 @@ pacman::p_load(tidyverse,  janitor, summarytools, kableExtra)
 #                tidymodels)
 
 
-pacman::p_load(gitcreds, usethis)
-
-# https://curso-r.githud.io/zen-do-r/git-githud.html
-gitcreds::gitcreds_set()
-usethis::use_git()
-usethis::use_github()
-
-usethis::edit_r_environ()
+# pacman::p_load(gitcreds, usethis)
+# 
+# # https://curso-r.githud.io/zen-do-r/git-githud.html
+# gitcreds::gitcreds_set()
+# usethis::use_git()
+# usethis::use_github()
+# 
+# usethis::edit_r_environ()
 
 # USANDO R BASE ----
 ## Q1 ----
