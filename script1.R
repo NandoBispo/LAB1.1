@@ -100,6 +100,7 @@ corr_pearson(dados1$math_scr, dados1$str)
 
 cor(dados1$math_scr, dados1$str)
 }
+
 ## Q2 ----
 {
 ### DADOS 2 ----
@@ -120,6 +121,31 @@ summary(dados_brutos2)
 
 
 ### item d ----
+
+
+
+
+### item e ----
+
+
+
+
+### item f ----
+
+plot(pregnant~test, data = dados_brutos2)
+plot(diabetes~test, data = dados_brutos2)
+
+
+plot(diabetes ~ test,dados_brutos2)
+
+
+### item g ----
+
+# K*\L\c5zmfb
+
+### item h ----
+
+
 
 }
 
