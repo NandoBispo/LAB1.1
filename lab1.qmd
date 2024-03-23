@@ -1,0 +1,159 @@
+---
+title: "LABORATÓRIO 1: Regressão Linear Simples"
+author: Fernando Bispo
+format:
+    html:
+      toc: true
+      toc-title: Sumário
+      colorlinks: true
+      documentclass: report
+      papersize: letter
+      number-sections: false
+---
+<!-- # pdf: -->
+<!-- #   toc: true -->
+<!-- #   toc-title: Sumário -->
+<!-- #   colorlinks: true -->
+<!-- #   documentclass: report -->
+<!-- #   papersize: letter -->
+<!-- #   number-sections: false -->
+
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+
+:::{.incrementyal}
+- sexo (**sex**);
+- largura do crânio (**skullw**);
+- comprimento total (**totlngth**).
+:::
+
+
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| echo: false
+#| warning: false
+
+
+# set.seed(7)
+# setwd("~/Dropbox/Estatística/2023.1/Regressão/Lab/Lab2")
+
+
+if (!require(pacman)){
+  install.packages("pacman")} else{
+library(pacman)}
+
+pacman::p_load(tidyverse,  janitor, summarytools, kableExtra)
+
+# 
+# library(pacman)
+# library(tidyverse)
+# library(janitor)
+# library(kableExtra)
+# library(moments)
+# library(ggthemes)
+# library(patchwork)
+# library(glue)
+# library(formattable)
+# library(gridExtra)
+
+# dados <- read.csv2("possum_red.csv")
+
+# dados <- dados |> 
+#   mutate(
+#     skullw = as.numeric(skullw),
+#     totlngth = as.numeric(totlngth),
+#     sex = forcats::as_factor(sex)
+#   )
+```
+
+You can add options to executable code like this 
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+
+## Questão 2
+
+```{r}
+#| echo: false
+#| warning: false
+
+dados_brutos2 <- read.table('pima.ascii', sep = "")
+
+dplyr::glimpse(dados_brutos2)
+
+```
+
+### Item a
+
+```{r item_a}
+#| echo: false
+#| warning: false
+
+# summary(dados_brutos2)
+
+dados_brutos2|>
+  # filter(sex == "f")|>select(sex)|>count()
+# rename("Largura Crânio" = skullw, "Comprimento Total" = totlngth)|>
+  summarytools::descr(
+    stats = c("min", "q1", "med", "mean","q3", "max",  "sd", "cv"),
+    # round.digits = 3,
+    justify = "c",
+    style = "grid", #' rmarkdown',
+    transpose = T
+  )|>
+  kbl(
+    caption = "Tabela 1: Medidas Resumo para o sexo feminino.",
+    digits = 2,
+    format.args=list(big.mark=".", decimal.mark=","),
+    align = "c", 
+    row.names = T,
+    col.names =
+      c("Min", "Q1", "Med", "Média", "Q3", "Max", "Desvio Padrão", "CV")
+  )|>
+  kable_material(c("striped", "hover", "condensed"))|>
+  # kadle_styling(
+  #   # dootstrap_options = c("striped", "hover", "condensed", "responsive"),
+  #   dootstrap_options = c("striped", "hover"),
+  #   full_width = F,
+  #   fixed_thead = T # Fixa o cadeçalho ao rolar a tadela.
+  # ) %>%
+  # footnote(general = "Fonte: Instituto Nacional de Diabetes e de Doenças Digestivas e Renais - EUA") |>
+  kable_material()
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

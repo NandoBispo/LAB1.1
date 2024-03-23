@@ -13,6 +13,7 @@ pacman::p_load(tidyverse,  janitor, summarytools, kableExtra)
 #                tidymodels)
 
 
+<<<<<<< HEAD
 pacman::p_load(gitcreds, usethis)
 
 # https://curso-r.githud.io/zen-do-r/git-githud.html
@@ -20,6 +21,16 @@ gitcreds::gitcreds_set()
 usethis::use_git()
 usethis::use_github()
 
+=======
+# pacman::p_load(gitcreds, usethis)
+# 
+# # https://curso-r.githud.io/zen-do-r/git-githud.html
+# gitcreds::gitcreds_set()
+# usethis::use_git()
+# usethis::use_github()
+# 
+# usethis::edit_r_environ()
+>>>>>>> bd23ec8598c56ac17f6721e172e3821777d8d5f2
 
 # USANDO R BASE ----
 ## Q1 ----
@@ -99,6 +110,7 @@ corr_pearson(dados1$math_scr, dados1$str)
 
 cor(dados1$math_scr, dados1$str)
 }
+
 ## Q2 ----
 {
 ### DADOS 2 ----
@@ -155,6 +167,31 @@ plot(diabetes ~ test, data=dados_brutos2, xlab="Test", ylab="Diabetes")
 # plot(age ~ test, data=dados_brutos2, xlab="Idade", ylab="Diabetes")
 # 
 # par(mfrow=c(1,1))
+
+
+
+
+### item e ----
+
+
+
+
+### item f ----
+
+plot(pregnant~test, data = dados_brutos2)
+plot(diabetes~test, data = dados_brutos2)
+
+
+plot(diabetes ~ test,dados_brutos2)
+
+
+### item g ----
+
+# K*\L\c5zmfb
+
+### item h ----
+
+
 
 }
 
