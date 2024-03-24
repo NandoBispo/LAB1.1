@@ -4,6 +4,7 @@ if (!require(pacman)){
 library(pacman)}
 
 pacman::p_load(tidyverse,  janitor, summarytools, kableExtra)
+
 # pacman::p_load(tidyverse,  janitor, stargazer,  sjmisc, summarytools)
 # pacman::p_load( kableExtra, moments, ggpubr, formattable, gridExtra)
 # 
@@ -26,11 +27,21 @@ dados1 <- dados_brutos1|>
   janitor::clean_names()
 
 ### item a ----
-dados1|>
+dados1[-1]|>
   summary()
 
+hist(dados1$str) #, xlab="Pregnant", ylab="Frequência", main="")
+hist(dados1$math_scr)
+
+
 ### item b ----
-plot(dados1$math_scr, dados1$str)
+plot(dados1$math_scr, dados1$str, 
+     # pch=23, 
+     bty="n", cex=1.3, xlab="", ylab="")
+box(bty="l")
+title(main = "Diagrama de dispersão entre MATH-SCR e STR", 
+      xlab = "MATH-SCR", ylab = "STR", 
+      font.main = 3)
 
 ### item c ----
 
@@ -256,7 +267,11 @@ plot(diabetes ~ test,dados_brutos2)
 
 # USANDO PKT ----
 
+## Questão 1 ----
+### Item a ----
+
 dados1|>
+  dplyr::select(-observation_number) |> 
   # filter(sex == "f")|>select(sex)|>count()
 # rename("Largura Crânio" = skullw, "Comprimento Total" = totlngth)|>
   summarytools::descr(
@@ -267,7 +282,7 @@ dados1|>
     transpose = T
   )|>
   kbl(
-    caption = "Tabela 1: Medidas Resumo para o sexo feminino.",
+    caption = "Tabela 1: Medidas tendência central e dispersão.",
     digits = 2,
     format.args=list(big.mark=".", decimal.mark=","),
     align = "c", 
@@ -282,7 +297,7 @@ dados1|>
   #   full_width = F,
   #   fixed_thead = T # Fixa o cadeçalho ao rolar a tadela.
   # ) %>%
-  # footnote(general = "Fonte: Instituto Nacional de Diabetes e de Doenças Digestivas e Renais - EUA") |>
+  footnote(general = "Fonte: California Standardized Testing and Reporting (STAR)") |>
   kable_material()
 # add_header_adove(c("Características", "Medidas de Tendência Central e Variadilidade" = 8))
 

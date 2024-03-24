@@ -28,57 +28,10 @@ format:
             \usepackage{indentfirst}
             \captionsetup[table]{name=Tabela}
 ---
-    <!-- html: -->
-    <!--   toc: true -->
-    <!--   toc-title: Sumário -->
-    <!--   colorlinks: true -->
-    <!--   documentclass: report -->
-    <!--   papersize: letter -->
-    <!--   number-sections: false -->
-    <!--   lang: pt-BR -->
-      <!-- #       geometry: -->
-      <!-- #   - top=30mm -->
-      <!-- #   - left=30mm -->
-      <!-- #   - right=20mm -->
-      <!-- #   - bottom=20mm -->
-      <!-- #   - heightrounded -->
-      <!-- # fig-pos: "H" -->
-      <!-- # fig-align: center -->
-      <!-- # fontsize: 12pt -->
-<!-- # pdf: -->
-<!-- #   toc: true -->
-<!-- #   toc-title: Sumário -->
-<!-- #   colorlinks: true -->
-<!-- #   documentclass: report -->
-<!-- #   papersize: letter -->
-<!-- #   number-sections: false -->
-
-
-## Questão 1
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-
-<!-- :::{.incrementyal} -->
-- sexo (**sex**);
-- largura do crânio (**skullw**);
-- comprimento total (**totlngth**).
-<!-- ::: -->
-
-
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r pacotes}
 #| echo: false
 #| warning: false
-
-
-# set.seed(7)
-# setwd("~/Dropbox/Estatística/2023.1/Regressão/Lab/Lab2")
-
 
 if (!require(pacman)){
   install.packages("pacman")} else{
@@ -90,14 +43,160 @@ summarytools::st_options(lang = "pt")
 
 ```
 
-You can add options to executable code like this 
+## Questão 1
 
-```{r}
+Os dados disponibilizados pelo _California Standardized Testing and Reporting_ (STAR) contêm informações sobre performance de exames, características da escola e informações demográficas dos alunos. Os dados são provenientes de 428 escolas de ensino fundamental de distritos da Califórnia em 1998 e 1999. Os escores dos testes são médias dos escores de leitura e matemática em testes de _Stanford_ padronizados que foram administrados em estudantes da 5ª  série. Para as análises a serem feitas serão consideradas apenas as variáveis **MATH-SCR** (média do escore de matemática) e **STR** (razão do número de estudantes por professores:(ESTUD/PROF)
+
+
+```{r dados1}
 #| echo: false
-2 * 2
+#| warning: false
+
+dados_brutos1 <- read.csv("dados/caschool.csv")
+
+dados1 <- dados_brutos1|>
+  janitor::clean_names()
+
+head(dados1)|>
+  kbl(
+    caption = "Apresentação parcial do conjunto de dados.",
+    format.args=list(big.mark=".", decimal.mark=","),
+    align = "c", 
+    row.names = F
+  )|>
+  kable_material(c("striped", "hover", "condensed"))
+
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+
+### Item a
+
+```{r item_a}
+#| echo: false
+#| warning: false
+
+dados1|>
+  select(-observation_number)|> 
+  summarytools::descr(
+    stats = c("min", "q1", "med", "mean","q3", "max",  "sd", "cv"),
+    justify = "c",
+    style = "grid",
+    transpose = T
+  )|>
+  kableExtra::kbl(
+    caption = "Medidas tendência central e dispersão.",
+    digits = 2,
+    format.args=list(big.mark=".", decimal.mark=","),
+    align = "c", 
+    row.names = T,
+    col.names =
+      c("Min", "Q1", "Med", "Média", "Q3", "Max", "Desvio Padrão", "CV")
+  )|>
+  kable_material(c("striped", "hover", "condensed"),
+    full_width = F,
+  #   fixed_thead = T # Fixa o cadeçalho ao rolar a tadela.
+  ) |> 
+  footnote(general = "Fonte: California Standardized Testing and Reporting (STAR)") |>
+  kable_material()
+
+```
+
+Com base na Tabela 1 se constata que os dados aparentam ter uma distribuição simétrica, tendo em vista o valor da Mediana ser Próximo ao da Média
+
+
+### Item b
+
+```{r item_b}
+#| echo: false
+#| warning: false
+#| fig-height: 5
+#| fig-width: 7
+
+
+plot(dados1$math_scr, dados1$str, 
+     # pch=23, 
+     bty="n", cex=1.3, xlab="", ylab="")
+box(bty="l")
+title(main = "Diagrama de dispersão entre MATH-SCR e STR", 
+      xlab = "MATH-SCR", ylab = "STR", 
+      font.main = 3)
+```
+
+Visualmente falando, com base na Figura 1, não há uma relação aparente entre as variávereis, pois nenhuma tendência foi constatada.
+
+### Item c
+
+Sendo muitas vezes necessário a implementação/criação de funções próprias personalizadas para o estudo de determinados fenômenos que não estão disponíveis em pacotes, se faz necessário o aprimoramento dessa habilidade, para tanto segue a construção de uma função responsável por calcular o Desvio Padrão dos dados inseridos
+
+```{r item_c}
+# Criação da função:
+dp = function(x){
+  n = length(x)
+  m = sum(x)/n
+  desvio = (x - m)^2
+  var = sum(desvio)/(n-1)
+  dp = sqrt(var)
+  
+  return(dp)
+}
+
+# Desvio Padrão da variável MATH-SCR:
+dp(dados1$math_scr)
+
+# Desvio Padrão da variável STR:
+dp(dados1$str)
+
+
+```
+
+
+
+### Item d
+
+```{r item_d}
+# Criação da função:
+corr_pearson = function(x, y){
+  n = length(x)
+  soma_x = sum(x)
+  soma_x2 = sum(x^2)
+  s_xx = soma_x2-(((soma_x)^2)/n)
+  
+  soma_y = sum(y)
+  soma_y2 = sum(y^2)
+  s_yy = soma_y2-(((soma_y)^2)/n)
+  
+  soma_xy = sum(x*y)
+  s_xy = soma_xy-((soma_x*soma_y)/n)
+  
+  r = s_xy/(sqrt(s_xx*s_yy))
+  
+  return(r)
+}
+
+corr_pearson(dados1$math_scr, dados1$str)
+
+# Desvio Padrão da variável MATH-SCR:
+dp(dados1$math_scr)
+
+# Desvio Padrão da variável STR:
+dp(dados1$str)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Questão 2
@@ -113,7 +212,7 @@ dados_brutos2 <- read.table('dados/pima.ascii', sep = " ")
 
 head(dados_brutos2)|>
   kbl(
-    caption = "Tabela 1: Apresentação parcial do conjunto de dados.",
+    caption = "Apresentação parcial do conjunto de dados.",
     format.args=list(big.mark=".", decimal.mark=","),
     align = "c", 
     row.names = F
@@ -134,17 +233,15 @@ A fim de conhecer o conjunto de dados, segue a Tabela 2 contendo as principais m
 # summary(dados_brutos2)
 
 dados_brutos2|>
-  # filter(sex == "f")|>select(sex)|>count()
-# rename("Largura Crânio" = skullw, "Comprimento Total" = totlngth)|>
   summarytools::descr(
     stats = c("min", "q1", "med", "mean","q3", "max",  "sd", "cv"),
     # round.digits = 3,
     justify = "c",
-    style = "grid", #' rmarkdown',
+    style = "grid",
     transpose = T
   )|>
   kbl(
-    caption = "Tabela 1: Medidas Resumo para o sexo feminino.",
+    caption = "Medidas tendência central e dispersão.",
     digits = 2,
     format.args=list(big.mark=".", decimal.mark=","),
     align = "c", 
@@ -200,7 +297,7 @@ dados_brutos2|>
     transpose = T
   )|>
   kbl(
-    caption = "Tabela 1: Medidas Resumo para o sexo feminino.",
+    caption = "Medidas Resumo para o sexo feminino.",
     digits = 2,
     format.args=list(big.mark=".", decimal.mark=","),
     align = "c", 
