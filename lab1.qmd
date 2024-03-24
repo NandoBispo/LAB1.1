@@ -1,41 +1,39 @@
 ---
-title: "LABORATÓRIO 1: Regressão Linear Simples"
+title: "LABORATÓRIO 1: Relação entre Variáveis"
 author: Fernando Bispo
 format:
-      pdf:
-        toc: true
-        toc-title: Sumário
-        colorlinks: true
-        documentclass: report
-        papersize: letter
-        number-sections: false
-        geometry:
-          - top=30mm
-          - left=30mm
-          - right=20mm
-          - bottom=20mm
-          - heightrounded
-        fig-pos: "H"
-        fig-align: center
-        lang: pt-BR
-        # fontfamily: libertinus
-        fontsize: 12pt
-        include-in-header:
-        - text: |
-            \usepackage{caption}
-            \usepackage{fontspec}
-            \usepackage{xcolor}
-            \usepackage{indentfirst}
-            \captionsetup[table]{name=Tabela}
+    pdf:
+      toc: true
+      toc-title: Sumário
+      colorlinks: true
+      documentclass: report
+      papersize: letter
+      number-sections: false
+      geometry:
+        - top=30mm
+        - left=30mm
+        - right=20mm
+        - bottom=20mm
+        - heightrounded
+      fig-pos: "H"
+      fig-align: center
+      lang: pt-BR
+      # fontfamily: libertinus
+      fontsize: 12pt
+      include-in-header:
+      - text: |
+          \usepackage{caption}
+          \usepackage{fontspec}
+          \usepackage{xcolor}
+          \usepackage{indentfirst}
+          \captionsetup[table]{name=Tabela}
 ---
 
 ```{r pacotes}
 #| echo: false
 #| warning: false
 
-if (!require(pacman)){
-  install.packages("pacman")} else{
-library(pacman)}
+if (!require(pacman)) install.packages("pacman")
 
 pacman::p_load(tidyverse,  janitor, summarytools, kableExtra)
 
@@ -43,9 +41,12 @@ summarytools::st_options(lang = "pt")
 
 ```
 
-## Questão 1
+# Questão 1
 
-Os dados disponibilizados pelo _California Standardized Testing and Reporting_ (STAR) contêm informações sobre performance de exames, características da escola e informações demográficas dos alunos. Os dados são provenientes de 428 escolas de ensino fundamental de distritos da Califórnia em 1998 e 1999. Os escores dos testes são médias dos escores de leitura e matemática em testes de _Stanford_ padronizados que foram administrados em estudantes da 5ª  série. Para as análises a serem feitas serão consideradas apenas as variáveis **MATH-SCR** (média do escore de matemática) e **STR** (razão do número de estudantes por professores:(ESTUD/PROF)
+## Introdução
+
+Os dados disponibilizados pelo _California Standardized Testing and Reporting_ (STAR) contêm
+informações sobre performance de exames, características da escola e informações demográficas dos alunos. Os dados são provenientes de 428 escolas de ensino fundamental de distritos da Califórnia em 1998 e 1999. Os escores dos testes são médias dos escores de leitura e matemática em testes de _Stanford_ padronizados que foram administrados em estudantes da 5ª  série. Para as análises a serem feitas serão consideradas apenas as variáveis **MATH-SCR** (média do escore de matemática) e **STR** (razão do número de estudantes por professores:(ESTUD/PROF)
 
 
 ```{r dados1}
@@ -68,6 +69,7 @@ head(dados1)|>
 
 ```
 
+A Tabela 1 traz uma breve visão do conjunto de dados em análise.
 
 ### Item a
 
@@ -101,7 +103,7 @@ dados1|>
 
 ```
 
-Com base na Tabela 1 se constata que os dados aparentam ter uma distribuição simétrica, tendo em vista o valor da Mediana ser Próximo ao da Média
+Com base na Tabela 2, que traz as principais medidas de tendência central e de dispersão, se constata que os dados aparentam ter uma distribuição simétrica, tendo em vista o valor da Mediana ser próximo ao da Média, contudo o Coeficiente de Variação (CV), que representa a variabilidade dos dados em relação à média, traz que a variável MATH-SCR possui os dados mais agrupados (ou mais homogêneos) em relação a média, já a variável STR possui uma maior variabilidade.
 
 
 ### Item b
@@ -110,25 +112,28 @@ Com base na Tabela 1 se constata que os dados aparentam ter uma distribuição s
 #| echo: false
 #| warning: false
 #| fig-height: 5
-#| fig-width: 7
+#| fig-width: 5
 
 
-plot(dados1$math_scr, dados1$str, 
+plot(dados1$str, dados1$math_scr, 
      # pch=23, 
      bty="n", cex=1.3, xlab="", ylab="")
 box(bty="l")
 title(main = "Diagrama de dispersão entre MATH-SCR e STR", 
-      xlab = "MATH-SCR", ylab = "STR", 
+      xlab = "STR", ylab = "MATH-SCR", 
       font.main = 3)
 ```
 
-Visualmente falando, com base na Figura 1, não há uma relação aparente entre as variávereis, pois nenhuma tendência foi constatada.
+A escolha da variável a ser avaliada é de suma importância para obtenção de resultados coerentes, tendo em vista a não indicação da variável a ser observada, uma análise cuidadosa é necessária, para tanto, após essa análise se constatou que faz mais sentido a avaliação da variável MATH-SCR (média do escore de matemática) em relação a variável STR (razão do número de estudantes por professores) e com isso em mente se constata uma leve e aparente relação negativa entre as variáveis, ou seja, a medida que o número de alunos por professor aumenta, menor a média do escore, contudo essa é uma interpretação preliminar.
+
+<!-- Visualmente falando, com base na Figura 1, não há uma relação aparente entre as variávereis, pois nenhuma tendência foi constatada. -->
 
 ### Item c
 
-Sendo muitas vezes necessário a implementação/criação de funções próprias personalizadas para o estudo de determinados fenômenos que não estão disponíveis em pacotes, se faz necessário o aprimoramento dessa habilidade, para tanto segue a construção de uma função responsável por calcular o Desvio Padrão dos dados inseridos
+Sendo muitos os momentos necessário em que a implementação/criação de funções próprias personalizadas para o estudo de determinados fenômenos, que não estão disponíveis em pacotes conhecidos, se faz necessário, e o aprimoramento dessa habilidade deve ser incentivado, para tanto, segue a construção de uma função responsável por calcular o Desvio Padrão dos dados inseridos
 
 ```{r item_c}
+
 # Criação da função:
 dp = function(x){
   n = length(x)
@@ -146,12 +151,13 @@ dp(dados1$math_scr)
 # Desvio Padrão da variável STR:
 dp(dados1$str)
 
-
 ```
 
-
+Para avaliar a eficácia dessa função, um comparativo dos valores de Desvio Padrão obtidos pela função criada e os resultados dos Desvios Padrão obtidos na Tabela 2 mostra que a função cumpriu o seu papel de forma satisfatória.
 
 ### Item d
+
+Para esta etapa da questão é requisitada a criação de uma função que calcule o Coeficiente de Correlação Linear de Pearson, sendo implementada a seguir.
 
 ```{r item_d}
 # Criação da função:
@@ -173,35 +179,25 @@ corr_pearson = function(x, y){
   return(r)
 }
 
+# Função criada
 corr_pearson(dados1$math_scr, dados1$str)
 
-# Desvio Padrão da variável MATH-SCR:
-dp(dados1$math_scr)
-
-# Desvio Padrão da variável STR:
-dp(dados1$str)
-
+# Função já implementada
+stats::cor(dados1$math_scr, dados1$str)
 
 ```
 
+Através do comparativo do resultado da função criada com a função já existente, a função criada mostra que cumpriu o seu papel de forma satisfatória.
 
 
+# Questão 2
 
+## Introdução
 
+<!-- Para a resolução da segunda parte da atividade foi disponibilizado um conjunto de dados originalmente do _National Institute of Diabetes and Digestive and Kidney Diseases._ (Instituto Nacional de Diabetes e Doenças Digestivas e Renais). O objetivo do conjunto de dados é prever diagnosticamente se um paciente tem ou não diabetes, com base em determinadas medidas de diagnóstico incluídas no conjunto de dados. Várias restrições foram impostas à seleção dessas instâncias em um banco de dados maior. Em particular, todos os pacientes aqui são mulheres com pelo menos 21 anos de idade, de ascendência indígena Pima. -->
 
-
-
-
-
-
-
-
-
-
-
-## Questão 2
-
-Para a resolução da segunda parte da atividade foi disponibilizado um conjunto de dados originalmente do _National Institute of Diabetes and Digestive and Kidney Diseases._ (Instituto Nacional de Diabetes e Doenças Digestivas e Renais). O objetivo do conjunto de dados é prever diagnosticamente se um paciente tem ou não diabetes, com base em determinadas medidas de diagnóstico incluídas no conjunto de dados. Várias restrições foram impostas à seleção dessas instâncias em um banco de dados maior. Em particular, todos os pacientes aqui são mulheres com pelo menos 21 anos de idade, de ascendência indígena Pima.
+O Instituto Nacional de Diabetes e de Doenças Digestivas e Renais _(National Institute of Diabetes and Digestive and Kidney Diseases)_ dos EUA conduziram um estudo com 768 mulheres da tribo Pima, que residem próximo a Phoenix.
+As seguintes variáveis foram coletadas: número de gestações, concentração de glicose no plasma (obtido 2 horas depois da realização de um teste de tolerância a glicose), pressão sanguínea diastólica (mmHg), largura do tríceps (mm), nível de insulina (µU/ml), índice de massa corpórea (kg/m2), nível de função diabética, idade (em anos) e um teste para avaliação de sinais de diabetes (0 = negativo e 1 = positivo). No banco de dados as variáveis encontram-se apresentadas nessa mesma ordem, mas com seus nomes em inglês.
 
 
 ```{r dados2}
@@ -218,19 +214,16 @@ head(dados_brutos2)|>
     row.names = F
   )|>
   kable_material(c("striped", "hover", "condensed"))
-  # kable_material()
 
 ```
 
-A fim de conhecer o conjunto de dados, segue a Tabela 2 contendo as principais medidas resumo do conjunto de dados disponibilizado.
+A fim de conhecer o conjunto de dados, segue a Tabela 4 contendo as principais medidas resumo do conjunto de dados disponibilizado.
 
+### Item a.1
 
-
-```{r item_1 tab2}
+```{r item_a1 tab}
 #| echo: false
 #| warning: false
-
-# summary(dados_brutos2)
 
 dados_brutos2|>
   summarytools::descr(
@@ -249,28 +242,42 @@ dados_brutos2|>
     col.names =
       c("Min", "Q1", "Med", "Média", "Q3", "Max", "Desvio Padrão", "CV")
   )|>
-  kable_material(c("striped", "hover", "condensed"))|>
-  # kadle_styling(
-  #   # dootstrap_options = c("striped", "hover", "condensed", "responsive"),
-  #   dootstrap_options = c("striped", "hover"),
-  #   full_width = F,
-  #   fixed_thead = T # Fixa o cadeçalho ao rolar a tadela.
-  # ) %>%
-  # footnote(general = "Fonte: Instituto Nacional de Diabetes e de Doenças Digestivas e Renais - EUA") |>
+  kable_material(
+    c("striped", "hover", "condensed"),
+    full_width = F
+  )|> 
+  footnote(general = "Fonte: Instituto Nacional de Diabetes e de Doenças Digestivas e Renais - EUA")|>
   kable_material()
 
 ```
 
+
+```{r item_a2_fig}
+#| echo: false
+#| warning: false
+#| fig-height: 5
+#| fig-width: 7
+
+par(mfrow=c(2,4), las=1)
+hist(dados_brutos2$pregnant, xlab="Pregnant", ylab="Frequência", main="")
+hist(dados_brutos2$diastolic, xlab="Diastolic", ylab="Frequência", main="")
+hist(dados_brutos2$triceps, xlab="Triceps", ylab="Frequência", main="")
+hist(dados_brutos2$glucose, xlab="Glucose", ylab="Frequência", main="")
+hist(dados_brutos2$insulin, xlab="Insulin", ylab="Frequência", main="")
+hist(dados_brutos2$bmi, xlab="BMI", ylab="Frequência", main="")
+hist(dados_brutos2$age, xlab="Age", ylab="Frequência", main="")
+hist(dados_brutos2$diabetes, xlab="Diabetes", ylab="Frequência", main="")
+
+```
 
 Levando em consideração o fato de haverem muitos dados faltantes constatou-se que esses dados foram substituídos por valores zero, o que influencia negativamente na interpretação dos resultados das principais medidas resumo calculadas, logo essas observações serão removidas e novos cálculos serão realizados a fim de se obter medidas mais fidedignas da realidade.
 
 É importante ressaltar que a variável _test_ é uma variável categórica, logo não faz sentido haver interpretações acerca das medidas resumo dessa variável, sendo expressa a Figura X para possibilitar uma melhor visualização do comportamento dessa variável.
 
 
-```{r item2_dadosNA}
+```{r item_b1 dadosNA}
 #| echo: false
 #| warning: false
-
 
 dados_brutos2$pregnant[dados_brutos2$pregnant == 0] = NA
 dados_brutos2$glucose[dados_brutos2$glucose == 0] = NA
@@ -285,7 +292,7 @@ dados_brutos2$age[dados_brutos2$age == 0] = NA
 
 
 
-```{r item_1_tab3}
+```{r item_b2 tab}
 #| echo: false
 #| warning: false
 
@@ -296,7 +303,7 @@ dados_brutos2|>
     style = "grid",
     transpose = T
   )|>
-  kbl(
+  kableExtra::kbl(
     caption = "Medidas Resumo para o sexo feminino.",
     digits = 2,
     format.args=list(big.mark=".", decimal.mark=","),
@@ -305,16 +312,20 @@ dados_brutos2|>
     col.names =
       c("Min", "Q1", "Med", "Média", "Q3", "Max", "Desvio Padrão", "CV")
   )|>
-  kable_material(c("striped", "hover", "condensed"))
+  kable_material(
+    c("striped", "hover", "condensed"),
+    full_width = F
+  )|> 
+  footnote(general = "Fonte: Instituto Nacional de Diabetes e de Doenças Digestivas e Renais - EUA")
 
 dados_brutos2$test = factor(dados_brutos2$test)
 
 ```
 
 
+### Item a.2
 
-
-```{r item_5_fig3}
+```{r item_b3 fig}
 #| echo: false
 #| warning: false
 #| fig-height: 5
@@ -333,7 +344,7 @@ hist(dados_brutos2$diabetes, xlab="Diabetes", ylab="Frequência", main="")
 ```
 
 
-### Item G
+### Item c
 Construção de boxplots comparando a distribuiçãoas variáveis por grupo de resultado do teste de diabetes:
 
 

@@ -43,6 +43,15 @@ title(main = "Diagrama de dispersão entre MATH-SCR e STR",
       xlab = "MATH-SCR", ylab = "STR", 
       font.main = 3)
 
+# Gráfico utilizado
+plot(dados1$str, dados1$math_scr, 
+     # pch=23, 
+     bty="n", cex=1.3, xlab="", ylab="")
+box(bty="l")
+title(main = "Diagrama de dispersão entre MATH-SCR e STR", 
+      xlab = "STR", ylab = "MATH-SCR", 
+      font.main = 3)
+
 ### item c ----
 
 dp = function(x){
@@ -100,7 +109,7 @@ corr_pearson = function(x, y){
 
 corr_pearson(dados1$math_scr, dados1$str)
 
-cor(dados1$math_scr, dados1$str)
+stats::cor(dados1$math_scr, dados1$str)
 }
 
 ## Q2 ----
@@ -121,7 +130,7 @@ head(dados_brutos2)|>
 
 
 
-### item a ----
+### item a.1 ----
 summary(dados_brutos2)
 
 dados_brutos2|>
@@ -154,7 +163,21 @@ dados_brutos2|>
   kable_material()
 
 
-### item b ----
+### item a.2 ----
+# par(mfrow=c(2,4))
+par(mfrow=c(2,4), las=1)
+hist(dados_brutos2$pregnant, xlab="Pregnant", ylab="Frequência", main="")
+hist(dados_brutos2$diastolic, xlab="Diastolic", ylab="Frequência", main="")
+hist(dados_brutos2$triceps, xlab="Triceps", ylab="Frequência", main="")
+hist(dados_brutos2$glucose, xlab="Glucose", ylab="Frequência", main="")
+hist(dados_brutos2$insulin, xlab="Insulin", ylab="Frequência", main="")
+hist(dados_brutos2$bmi, xlab="BMI", ylab="Frequência", main="")
+hist(dados_brutos2$age, xlab="Age", ylab="Frequência", main="")
+hist(dados_brutos2$diabetes, xlab="Diabetes", ylab="Frequência", main="")
+
+
+
+### item b.1 ----
 
 # pima$diastolic[pima$diastolic == 0] = NA
 dados_brutos2$pregnant[dados_brutos2$pregnant == 0] = NA
@@ -166,6 +189,8 @@ dados_brutos2$bmi[dados_brutos2$bmi == 0] = NA
 dados_brutos2$diabetes[dados_brutos2$diabetes == 0] = NA
 dados_brutos2$age[dados_brutos2$age == 0] = NA
 # dados_brutos2$test[dados_brutos2$test == 0] = NA
+
+### item b.2 ----
 
 dados_brutos2|>
   # filter(sex == "f")|>select(sex)|>count()
@@ -208,16 +233,6 @@ var(dados_brutos2$diastolic,
 ### item e ----
 # Tutorial: https://vanderleidebastiani.github.io/tutoriais/Graficos_com_R.html#Pain%C3%A9is_gr%C3%A1ficos
 
-# par(mfrow=c(2,4))
-par(mfrow=c(2,4), las=1)
-hist(dados_brutos2$pregnant, xlab="Pregnant", ylab="Frequência", main="")
-hist(dados_brutos2$diastolic, xlab="Diastolic", ylab="Frequência", main="")
-hist(dados_brutos2$triceps, xlab="Triceps", ylab="Frequência", main="")
-hist(dados_brutos2$glucose, xlab="Glucose", ylab="Frequência", main="")
-hist(dados_brutos2$insulin, xlab="Insulin", ylab="Frequência", main="")
-hist(dados_brutos2$bmi, xlab="BMI", ylab="Frequência", main="")
-hist(dados_brutos2$age, xlab="Age", ylab="Frequência", main="")
-hist(dados_brutos2$diabetes, xlab="Diabetes", ylab="Frequência", main="")
 
 # las: Altera a orientação dos números dos eixos.
 
