@@ -30,7 +30,7 @@ usethis::git_sitrep()
 
 
 # K*\L\c5zmfb
-
+# bd23ec8598c56ac17f6721e172e3821777d8d5f2
 
 
 # arthur.rios@ufba.br
